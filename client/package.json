@@ -6,22 +6,31 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "axios": "^0.27.2",
     "daisyui": "^2.24.2",
+    "graphql": "^16.6.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-toastify": "^9.0.8"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.12.0",
+    "@graphql-codegen/introspection": "2.2.1",
+    "@graphql-codegen/typescript": "2.7.3",
+    "@graphql-codegen/typescript-operations": "2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "3.3.3",
     "@types/node": "18.7.14",
     "@types/react": "18.0.18",
     "@types/react-dom": "18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "autoprefixer": "^10.4.8",
+    "change-case": "^4.1.2",
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "eslint-config-prettier": "^8.5.0",
