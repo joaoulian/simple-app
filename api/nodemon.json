@@ -3,5 +3,5 @@
   "verbose": true,
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "ts-node -r tsconfig-paths/register ./src/shared/infrastructure/server.ts"
+  "exec": "ts-node -r dotenv/config -r tsconfig-paths/register ./src/shared/infrastructure/server.ts"
 }

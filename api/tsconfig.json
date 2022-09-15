@@ -19,7 +19,8 @@
     "paths": {
       "@core/*": ["./src/shared/core/*"],
       "@shared/*": ["./src/shared/*"],
-      "@utils/*": ["./src/shared/utils/*"]
+      "@utils/*": ["./src/shared/utils/*"],
+      "@identity/*": ["./src/contexts/identity/*"],
     }
   },
   "include": [

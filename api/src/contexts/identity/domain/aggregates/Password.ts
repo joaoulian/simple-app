@@ -7,17 +7,17 @@ interface PasswordProps {
 }
 
 export class Password extends ValueObject<PasswordProps> {
-  private static BCRYPT_SALT = 10;
+  private BCRYPT_SALT = 10;
   private static MIN_PASSWORD_LENGHT = 8;
 
-  public static async create(props: PasswordProps): Promise<Password> {
+  public static create(props: PasswordProps): Password {
     if (!props.hashed) {
       this.validate(props.value);
     }
 
     return new Password({
-      value: await this.encryptPassword(props.value),
-      hashed: true,
+      value: props.value,
+      hashed: Boolean(props.hashed) === true,
     });
   }
 
@@ -32,8 +32,13 @@ export class Password extends ValueObject<PasswordProps> {
   private static hasNumber = (password: string) => /\d/.test(password);
   private static hasA2Z = (password: string) => /[a-zA-Z]/.test(password);
 
-  private static encryptPassword(plainTextPassword: string): Promise<string> {
+  private encryptPassword(plainTextPassword: string): Promise<string> {
     return bcrypt.hash(plainTextPassword, this.BCRYPT_SALT);
+  }
+
+  async getHashedValue(): Promise<string> {
+    if (this.props.hashed) return Promise.resolve(this.props.value);
+    return this.encryptPassword(this.props.value);
   }
 
   comparePassword = (plainTextPassword: string): boolean => {

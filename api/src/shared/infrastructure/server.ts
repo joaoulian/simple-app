@@ -1,5 +1,25 @@
-import App from './app';
+import { ApolloServer } from 'apollo-server';
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 
-const app = new App([], 5000);
+import { typeDefs } from './schema';
+import { resolvers } from './resolvers';
+import { contextBuilder } from './context';
 
-app.listen();
+export const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req, res }) => {
+    return { userContext: await contextBuilder.build(req, res) };
+  },
+  introspection: true,
+  plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+});
+
+const port = process.env.PORT || 3000;
+
+server
+  .listen({ port })
+  .then(({ url }) => {
+    console.log(`🚀  Server  ready at ${url}`);
+  })
+  .catch((err) => console.error(err));

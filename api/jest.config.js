@@ -9,6 +9,7 @@ module.exports = {
   moduleNameMapper: {
     '@core/(.*)': '<rootDir>/src/shared/core/$1',
     '@utils/(.*)': '<rootDir>/src/shared/utils/$1',
-    '@shared/(.*)': '<rootDir>/src/shared/$1'
+    '@shared/(.*)': '<rootDir>/src/shared/$1',
+    '@identity/(.*)': '<rootDir>/src/identity/$1',
   },
 };
