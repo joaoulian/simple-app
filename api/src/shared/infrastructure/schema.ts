@@ -22,9 +22,21 @@ export const typeDefs = gql`
     accessToken: String!
   }
 
+  input UpdateUserRequest {
+    firstName: String
+    lastName: String
+    birthdate: String
+    email: String
+  }
+
+  type UpdateUserResponse {
+    success: Boolean!
+  }
+
   type Mutation {
     signUp(input: SignUpRequest!): SignUpReponse
     login(input: LoginRequest!): LoginReponse
+    updateUser(input: UpdateUserRequest!): UpdateUserResponse
   }
 
   type User {

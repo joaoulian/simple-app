@@ -29,6 +29,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login?: Maybe<LoginReponse>;
   signUp?: Maybe<SignUpReponse>;
+  updateUser?: Maybe<UpdateUserResponse>;
 };
 
 export type MutationLoginArgs = {
@@ -37,6 +38,10 @@ export type MutationLoginArgs = {
 
 export type MutationSignUpArgs = {
   input: SignUpRequest;
+};
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserRequest;
 };
 
 export type Query = {
@@ -55,6 +60,18 @@ export type SignUpRequest = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type UpdateUserRequest = {
+  birthdate?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateUserResponse = {
+  __typename?: 'UpdateUserResponse';
+  success: Scalars['Boolean'];
 };
 
 export type User = {
@@ -162,6 +179,8 @@ export type ResolversTypes = ResolversObject<{
   SignUpReponse: ResolverTypeWrapper<SignUpReponse>;
   SignUpRequest: SignUpRequest;
   String: ResolverTypeWrapper<Scalars['String']>;
+  UpdateUserRequest: UpdateUserRequest;
+  UpdateUserResponse: ResolverTypeWrapper<UpdateUserResponse>;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -176,6 +195,8 @@ export type ResolversParentTypes = ResolversObject<{
   SignUpReponse: SignUpReponse;
   SignUpRequest: SignUpRequest;
   String: Scalars['String'];
+  UpdateUserRequest: UpdateUserRequest;
+  UpdateUserResponse: UpdateUserResponse;
   User: User;
 }>;
 
@@ -203,6 +224,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationSignUpArgs, 'input'>
   >;
+  updateUser?: Resolver<
+    Maybe<ResolversTypes['UpdateUserResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateUserArgs, 'input'>
+  >;
 }>;
 
 export type QueryResolvers<
@@ -217,6 +244,14 @@ export type SignUpReponseResolvers<
   ParentType extends ResolversParentTypes['SignUpReponse'] = ResolversParentTypes['SignUpReponse'],
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type UpdateUserResponseResolvers<
+  ContextType = ApolloContext,
+  ParentType extends ResolversParentTypes['UpdateUserResponse'] = ResolversParentTypes['UpdateUserResponse'],
+> = ResolversObject<{
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -237,5 +272,6 @@ export type Resolvers<ContextType = ApolloContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   SignUpReponse?: SignUpReponseResolvers<ContextType>;
+  UpdateUserResponse?: UpdateUserResponseResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
