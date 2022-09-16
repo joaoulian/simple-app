@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useMeQueryLazyQuery } from 'graphql/generated';
+import { UpdateUserRequest, useMeQueryLazyQuery, useUpdateUserMutation } from 'graphql/generated';
+import UpdateUserFormComponent from 'components/UpdateUserForm';
+import { toast } from 'react-toastify';
 
 export default function HomeView() {
   const router = useRouter();
 
   const [loadUser, { data }] = useMeQueryLazyQuery()
+  const [updateUser] = useUpdateUserMutation();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -16,11 +19,24 @@ export default function HomeView() {
     loadUser()
   }, []);
 
-  console.log(data);
-
   const logout = () => {
     localStorage.removeItem('token');
     router.push("/login");
+  }
+
+  const onUpdate = async (request: UpdateUserRequest) => {
+    const { errors } = await updateUser({
+      variables: {
+        input: request
+      }
+    })
+
+    if (errors) {
+      toast.error(errors[0].message);
+    } else {
+      toast.success('Usuário atualizado com sucesso');
+      loadUser()
+    }
   }
 
   const renderHeader = () => {
@@ -32,7 +48,13 @@ export default function HomeView() {
           </h2>
           <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
             <div className="mt-2 flex items-center text-sm text-gray-500">
-              Batata
+              {data?.me?.firstName} {data?.me?.lastName}
+            </div>
+            <div className="mt-2 flex items-center text-sm text-gray-500">
+              {data?.me?.email}
+            </div>
+            <div className="mt-2 flex items-center text-sm text-gray-500">
+              {data?.me?.birthdate}
             </div>
           </div>
         </div>
@@ -50,7 +72,12 @@ export default function HomeView() {
     <>
       <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6">
         <div className="w-full space-y-8">
-          {renderHeader()}
+          {data ?
+            <>
+              {renderHeader()}
+              <UpdateUserFormComponent onSave={onUpdate} user={data.me} />
+            </> :
+            <progress className="progress w-56"></progress>}
         </div>
       </div>
     </>

@@ -19,7 +19,7 @@ export default function LoginView() {
   useEffect(() => {
     if (data?.login?.accessToken) {
       localStorage.setItem('token', data.login.accessToken);
-      router.push("/");
+      router.replace("/");
     }
   }, [data])
 
